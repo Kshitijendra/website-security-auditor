@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SonarAudit: Website Security Auditor</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body><div class="strip"><span class="brand">Sonar<b>Audit</b></span>
+<a class="nav" href="/">Home</a><a class="nav" href="/history">History</a><a class="nav" href="/insights">Insights</a></div>
+<div class="wrap">{% block body %}{% endblock %}</div>
+<footer>Educational security-configuration checker. Use only on websites you own or may test.</footer>
+<div class="scan" id="scan"><div><p>Scanning target</p><i></i><p style="font-size:.9rem;color:var(--mute)">Checking DNS, TLS, headers and cookies</p></div></div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script></body></html>

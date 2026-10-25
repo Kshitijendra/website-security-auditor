@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}
+<h1>Insights</h1><p class="lead">A summary of every audit saved on this computer.</p>
+{% if not stats.total %}<div class="card">No audits yet. <a href="/">Run your first audit.</a></div>{% else %}
+<div class="tiles"><div class="tile"><span>Audits run</span><b>{{ stats.total }}</b></div><div class="tile"><span>Average score</span><b>{{ stats.avg if stats.avg is not none else 'n/a' }}</b></div>
+<div class="tile"><span>Best score</span><b class="low">{{ stats.best if stats.best is not none else 'n/a' }}</b></div><div class="tile"><span>Worst score</span><b class="high">{{ stats.worst if stats.worst is not none else 'n/a' }}</b></div></div>
+<div class="two"><div class="card"><h2>Score trend</h2>{% if stats.trend %}<div class="trend">{% for s in stats.trend %}<i class="{{ 'low' if s >= 85 else 'mod' if s >= 60 else 'high' }}" style="height:{{ s }}%" title="{{ s }}"></i>{% endfor %}</div><p class="legend">Oldest to newest scored audits.</p>{% else %}<p>No scored audits yet.</p>{% endif %}</div>
+<div class="card"><h2>Findings by severity</h2>{% for s in ['High','Medium','Low','Informational'] %}<div class="hrow sev-{{ s }}"><span>{{ s }}</span><div class="bar"><i style="width:{{ stats.sev[s] * 100 // stats.sevmax }}%"></i></div><b>{{ stats.sev[s] }}</b></div>{% endfor %}</div></div>
+<div class="card"><h2>Most common weaknesses</h2>{% for t, n in stats.top %}<div class="hrow"><span style="flex:1">{{ t }}</span><b>{{ n }}x</b></div>{% else %}<p>No findings recorded.</p>{% endfor %}</div>{% endif %}
+{% endblock %}

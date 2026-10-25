@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block body %}
+<script>window.AUDIT={{ {'score': result.score, 'findings': result.findings}|tojson }};</script>
+{% set cls = 'low' if result.risk == 'Low risk' else 'mod' if result.risk == 'Moderate risk' else 'high' %}
+<form method="post" action="/audit" id="auditForm" class="target" style="margin-bottom:26px"><input name="url" value="{{ result.url }}" aria-label="Website URL" required><button class="btn-go">Audit again</button></form>
+<div class="card res"><div><div id="radar"></div><p class="legend">Each dot is a finding. The closer to the centre, the more severe.</p></div>
+<div><h2 style="margin-bottom:8px">{{ result.hostname }}</h2><span class="badge {{ cls }}">{{ result.risk }}</span>
+<p class="big" style="margin:16px 0 0">{{ result.score if result.score is not none else 'N/A' }}<small> / 100</small></p>
+<div class="kv"><span>Response <b>{{ result.duration_ms or 'n/a' }} ms</b></span><span>Redirects <b>{{ result.redirects|length }}</b></span><span>Checks run <b>{{ result.checks|length }}</b></span></div>
+<div class="dl"><a href="/report/{{ result.id }}.pdf">PDF</a><a href="/report/{{ result.id }}.html">Printable</a><a href="/report/{{ result.id }}.json">JSON</a><a href="/report/{{ result.id }}.csv">CSV</a></div>
+<p class="legend" style="margin-top:14px">Educational configuration score, not an industry rating.</p></div></div>
+{% if result.error %}<div class="info">{{ result.error }}</div>{% endif %}
+<div class="card"><h2>Findings ({{ result.findings|length }})</h2>{% for f in result.findings %}<div class="finding sev-{{ f.severity }}"><b>{{ f.severity }}: {{ f.title }}</b>
+<p>Evidence: <code>{{ f.evidence }}</code></p><p>Fix: {{ f.remediation }}</p></div>{% else %}<p>No findings from the checks that ran.</p>{% endfor %}</div>
+<div class="card"><details><summary>Show all {{ result.checks|length }} checks</summary><table><tr><th>Check</th><th>Status</th><th>Evidence</th></tr>
+{% for c in result.checks %}<tr><td>{{ c.check }}</td><td class="st-{{ c.status.split()[0] }}">{{ c.status }}</td><td class="ev">{{ c.evidence }}</td></tr>{% endfor %}</table></details></div>
+{% endblock %}

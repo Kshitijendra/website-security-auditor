@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block body %}
+<div class="hero"><div>
+<h1>Check how well a website protects its visitors.</h1>
+<p class="lead">Enter a site you own. SonarAudit makes a few ordinary requests, then reports weak HTTPS, missing security headers and unsafe cookies, with the evidence and a fix for each.</p>
+<form method="post" action="/audit" id="auditForm" class="target"><input name="url" placeholder="https://your-site.com" aria-label="Website URL" required><button class="btn-go">Run audit</button></form>
+{% if error %}<div class="err" style="margin-top:14px">{{ error }}</div>{% endif %}
+<p class="hint">Audit only websites you own or have written permission to test.</p></div>
+<div class="deco" aria-hidden="true"><svg viewBox="-110 -110 220 220"><circle r="25" class="ring"/><circle r="50" class="ring"/><circle r="75" class="ring"/><circle r="100" class="ring"/><line x1="-100" x2="100" class="ring"/><line y1="-100" y2="100" class="ring"/><g class="sweep"><path d="M0 0 L100 0 A100 100 0 0 0 70.7 -70.7 Z"/></g></svg></div></div>
+<section><h2>How it works</h2><div class="steps">
+<div class="step"><b>1</b><h3>Enter your site</h3><p>The address is checked first. Private and internal addresses are refused.</p></div>
+<div class="step"><b>2</b><h3>Safe checks run</h3><p>A few normal requests collect TLS, header and cookie evidence.</p></div>
+<div class="step"><b>3</b><h3>Fix and compare</h3><p>Each finding explains the risk and the fix. Run again and compare the audits.</p></div></div></section>
+<section class="two"><div><h2>What it checks</h2><ul class="list">
+<li><b>HTTPS and certificate</b><span>Valid, trusted, matching the hostname, and not expired.</span></li>
+<li><b>HTTP to HTTPS redirect</b><span>Plain HTTP visitors are sent to the secure site.</span></li>
+<li><b>Security headers</b><span>HSTS, CSP, Referrer-Policy and three more.</span></li>
+<li><b>Cookies</b><span>Secure, HttpOnly and SameSite flags.</span></li>
+<li><b>Information disclosure</b><span>Server and X-Powered-By version details.</span></li></ul></div>
+<div><h2>Built to stay safe</h2><ul class="list safe">
+<li><b>No attacks</b><span>Only ordinary GET requests, with timeouts and limits.</span></li>
+<li><b>SSRF protection</b><span>Every address and redirect is validated before connecting.</span></li>
+<li><b>Certificates always verified</b><span>TLS checking is never switched off.</span></li>
+<li><b>Honest scoring</b><span>A score out of 100 for configuration only. It is not a full safety rating.</span></li></ul></div></section>
+{% endblock %}

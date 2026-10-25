@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}
+<h1>Audit history</h1><p class="lead">Search past audits, open one, or compare two of the same site.</p>
+<form class="search"><input name="q" placeholder="Search by hostname" aria-label="Search"><button class="btn">Search</button></form>
+<form action="/compare" class="search"><input name="a" placeholder="Audit ID A"><input name="b" placeholder="Audit ID B"><button class="btn">Compare two audits</button></form>
+<div class="card"><table><tr><th>ID</th><th>Host</th><th>Finished</th><th>Status</th><th>Score</th><th></th></tr>
+{% for r in rows %}<tr><td>#{{ r.id }}</td><td><a href="/audit/{{ r.id }}">{{ r.hostname }}</a></td><td>{{ r.completed }}</td><td>{{ r.status }}</td><td>{{ r.score if r.score is not none else 'N/A' }}</td>
+<td><form method="post" action="/delete/{{ r.id }}" onsubmit="return confirm('Delete this audit permanently?')"><input type="hidden" name="confirm" value="yes"><button class="btn del">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="6">No audits match.</td></tr>{% endfor %}</table></div>
+{% endblock %}

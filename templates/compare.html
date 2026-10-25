@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block body %}
+<h1>{{ a.hostname }} <span>#{{ a.id }} ({{ a.score }}) against #{{ b.id }} ({{ b.score }})</span></h1>
+<div class="card"><h2>Fixed since the first audit</h2>{{ fixed|join(', ') or 'Nothing fixed' }}</div>
+<div class="card"><h2>New in the second audit</h2>{{ new|join(', ') or 'Nothing new' }}</div>
+<div class="card"><h2>Unchanged</h2>{{ same|join(', ') or 'Nothing unchanged' }}</div>
+{% endblock %}
